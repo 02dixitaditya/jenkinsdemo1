@@ -22,7 +22,7 @@ pipeline {
         sh 'docker volume create hostfolder'
         sh 'docker build -t demodoc --build-arg TEST=150 .'
         //sh 'docker run -it -v hostfolder:/dockerfolder --name demodoc'
-        sh 'docker run -it -d demodoc:latest'
+        sh 'docker run -it -v hostfolder:/dockerfolder -d demodoc:latest'
       
       }
     }
