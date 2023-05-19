@@ -1,0 +1,5 @@
+FROM python:3.9.7
+ARG TEST
+
+ENV mTEST=$TEST
+RUN echo $mTEST
