@@ -60,7 +60,7 @@ node {
         }
   }
   catch (Exception ex) {
-            error(" [ERROR] ${ex}")
+            echo 'error'
         } 
   finally {
 		        echo 'finally'
