@@ -44,11 +44,11 @@ node {
   try{
       stage('Build'){
         echo 'build'
-        sh 'javac myfile.java'
+        //sh 'javac myfile.java'
       }
       stage('Test') {
            echo 'testing' 
-           sh 'java myfile'
+           //sh 'java myfile'
         }
 
         stage('Dockerfile'){
