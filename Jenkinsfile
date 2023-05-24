@@ -63,7 +63,7 @@ node {
         } 
   finally {
             echo 'finally'
-            cleanWs()
+            //cleanWs()
             sh('docker system prune -a -f --volumes')
 	}
   
