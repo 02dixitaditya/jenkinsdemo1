@@ -45,7 +45,7 @@ node {
       stage('Build'){
         echo 'build'
 	sleep(time:10,unit:"SECONDS")
-        //sh 'javac myfile.java'
+        sh 'javac myfile.java'
       }
       stage('Test') {
            echo 'testing' 
