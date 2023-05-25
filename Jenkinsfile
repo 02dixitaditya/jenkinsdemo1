@@ -44,16 +44,19 @@ node {
   try{
       stage('Build'){
         echo 'build'
+	sleep(time:10,unit:"SECONDS")
         //sh 'javac myfile.java'
       }
       stage('Test') {
            echo 'testing' 
+	   sleep(time:10,unit:"SECONDS")
            //sh 'java myfile'
         }
 
         stage('Dockerfile'){
             sh 'docker volume create hostfolder'
 	    sh 'docker build -t demodoc --build-arg TEST=150 .'
+            sleep(time:10,unit:"SECONDS")
 	    //sh 'docker run -it -v hostfolder:/dockerfolder --name demodoc'
 	    //sh 'docker run -it -v hostfolder:/dockerfolder -d demodoc:latest'
         }
