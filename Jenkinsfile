@@ -54,7 +54,7 @@ node {
         }
 
         stage('Dockerfile'){
-            sh 'docker volume create hostfolder'
+            //sh 'docker volume create hostfolder'
 	    sh 'docker build -t demodoc --build-arg TEST=150 .'
             sleep(time:10,unit:"SECONDS")
 	    //sh 'docker run -it -v hostfolder:/dockerfolder --name demodoc'
