@@ -52,6 +52,9 @@ pipeline {
 
                     source $WORKSPACE/node_creds
                     sshpass -p $SSH_PASSWORD scp -o StrictHostKeyChecking=no $WORKSPACE/file.json $SSH_USERNAME@$JUMPHOST_IP:~
+                    DEPLOYER_USERNAME=administrator@kalyani.local
+                    DEPLOYER_PASSWORD=P@ssw0rd
+                    curl -u $DEPLOYER_USERNAME:$DEPLOYER_PASSWORD https://amaas-eos-mw1.cec.lab.emc.com/artifactory/dv-installer/weekly/1.0.0.0-18-193-200785a/ | bash
                 '''
             }
         }
