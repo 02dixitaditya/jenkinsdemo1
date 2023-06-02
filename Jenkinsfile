@@ -10,6 +10,7 @@ pipeline {
                   echo $NODES_COUNT
                   echo $DV_REPOSITORY_PATH
                   ip=$JUMPHOST_IP
+                  echo 'ip a show | grep "192.168"'
                   for ((i=1;i<=$NODES_COUNT;i++))
                   do 
                      echo $ip >> ip.txt
