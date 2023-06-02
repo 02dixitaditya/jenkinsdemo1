@@ -13,8 +13,8 @@ pipeline {
                   #ip a show
                   for ((i=1;i<=NODES_COUNT;i++))
                   do 
-                     ip=$(echo $ip | awk -F. '{print $1"."$2"."$3"."$4+1}')
-                     echo $ip >> ip.txt
+                     ip=$(echo $PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."$4+1}')
+                     echo $PRIVATE_IP >> ip.txt
                   done
                 '''
             }
