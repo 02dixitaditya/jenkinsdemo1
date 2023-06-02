@@ -6,15 +6,15 @@ pipeline {
             steps {
                 sh label: 'Deploy dv-bundle', script: '''
                   #!/bin/bash +x
-                  echo $JUMPHOST_IP
-                  echo $NODES_COUNT
-                  echo $DV_REPOSITORY_PATH
-                  ip=$JUMPHOST_IP
-                  ip a show | grep "192.168"
-                  for ((i=1;i<=$NODES_COUNT;i++))
+                  JUMPHOST_IP=$JUMPHOST_IP
+                  NODES_COUNT=$NODES_COUNT
+                  DV_REPOSITORY_PATH=$DV_REPOSITORY_PATH
+                  PRIVATE_IP="192.168.228.100"
+                  #ip a show
+                  for ((i=1;i<=NODES_COUNT;i++))
                   do 
-                     echo $ip >> ip.txt
                      ip=$(echo $ip | awk -F. '{print $1"."$2"."$3"."$4+1}')
+                     echo $ip >> ip.txt
                   done
                 '''
             }
