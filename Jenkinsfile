@@ -25,11 +25,20 @@ pipeline {
                     for ((i=2;i<=NODES_COUNT;i++))
                     do
                       NODE_PRIVATE_IP=$(echo $NODE_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."$4+1}')
-                      echo '    {
-                          "type":"worker",
-                          "address":"'$NODE_PRIVATE_IP'",
-                          "hostname":"node'$i'"
-                        },' >> file.json
+                      if [ $i -eq $NODES_COUNT ]
+                      then 
+                          echo '    {
+                              "type":"worker",
+                              "address":"'$NODE_PRIVATE_IP'",
+                              "hostname":"node'$i'"
+                            }' >> file.json
+                      else 
+                          echo '    {
+                              "type":"worker",
+                              "address":"'$NODE_PRIVATE_IP'",
+                              "hostname":"node'$i'"
+                            },' >> file.json
+                      fi
                     done
                     echo '  ],
                       "load-balancer-ipranges": "192.168.221.150-192.168.221.160",
