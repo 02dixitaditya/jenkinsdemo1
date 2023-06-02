@@ -1,73 +1,49 @@
-// pipeline {
-//   agent any 
-  
-//   stages {
-  
-//     stage('Build') {
-//        steps {
-//           echo 'build'
-//           sh 'javac myfile.java'
-//         }
-//     }
-    
-//     stage('Test') {
-//        steps {
-//           echo 'testing' 
-//           sh 'java myfile'
-//        }
-//     }
+#!/usr/bin/env groovy
 
-//     stage('Dockerfile'){
-//       steps {
-//         sh 'docker volume create hostfolder'
-//         sh 'docker build -t demodoc --build-arg TEST=150 .'
-//         //sh 'docker run -it -v hostfolder:/dockerfolder --name demodoc'
-//         sh 'docker run -it -v hostfolder:/dockerfolder -d demodoc:latest'
-      
-//       }
-//     }
-    
-//  }
-// }
+void runBuild() {
+    node('master') {
+        try {
 
+            stage('Deploy dv_bundle') {
+               sh label: 'Deploy dv-bundle', script: '''
+                  #!/bin/bash +x
+                  echo $JUMPHOST_IP
+                  echo $NODES_COUNT
+                  echo $DV_REPOSITORY_PATH
+                '''
+            }
 
-
-
-
-
-
-
-
-
-node {
-  
-  try{
-      stage('Build'){
-        echo 'build'
-	sleep(time:10,unit:"SECONDS")
-        sh 'javac myfile.java'
-      }
-      stage('Test') {
-           echo 'testing' 
-	   sleep(time:10,unit:"SECONDS")
-           //sh 'java myfile'
+        } catch (Exception ex) {
+            echo "error"
         }
+    }
+}
 
-        stage('Dockerfile'){
-            //sh 'docker volume create hostfolder'
-	    sh 'docker build -t mydoc --build-arg TEST=150 .'
-            sleep(time:10,unit:"SECONDS")
-	    //sh 'docker run -it -v hostfolder:/dockerfolder --name demodoc'
-	    //sh 'docker run -it -v hostfolder:/dockerfolder -d demodoc:latest'
-        }
-  }
-  catch (Exception ex) {
-            echo 'error'
-        } 
-  finally {
-            echo 'finally'
-            //cleanWs()
-            sh('docker system prune -a -f --volumes')
-	}
-  
+if (env.LOAD_JENKINSFILE_AS_LIB) {
+    return this
+} else {
+    properties([
+            parameters([
+                    string(
+                            name: 'JUMPHOST_IP',
+                            defaultValue: '',
+                            description: 'Enter cluster <b>Jumphost IP</b>',
+                            trim: true,
+                    ),
+                    string(
+                            name: 'NODES_COUNT',
+                            defaultValue: '',
+                            description: 'Enter number of hosts',
+                            trim: true,
+                    ),
+                    string(
+                            name: 'DV_REPOSITORY_PATH',
+                            defaultValue: '',
+                            description: 'Enter repository path of DV bundle to be installed',
+                            trim: true,
+                    ),
+            ]),
+    ])
+
+    this.runBuild()
 }
