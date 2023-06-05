@@ -6,14 +6,10 @@ pipeline {
             steps {
                 sh label: 'Deploy dv-bundle', script: '''
                   #!/bin/bash +x
-                  JUMPHOST_IP=$JUMPHOST_IP
-                  NODES_COUNT=$NODES_COUNT
-                  DV_REPOSITORY_PATH=$DV_REPOSITORY_PATH
-                  JP_PRIVATE_IP="192.168.222.100"
-                  NODE_PRIVATE_IP=$JP_PRIVATE_IP
-                  NODE_PRIVATE_IP=$(echo $NODE_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."$4+1}')
-                  #ip a show
-
+                  
+                  NODE_PRIVATE_IP=$(echo $JUMPHOST_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."$4+1}')
+                  LOAD_BALANCE_IPRANGE=$(echo JUMPHOST_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."150-$1"."$2"."$3"."160}')
+                  echo $LOAD_BALANCE_IPRANGE
                   echo '{
                       "nodes":[
                         {
@@ -46,7 +42,7 @@ pipeline {
                     }' >> file.json
                     
                     
-                    echo "export JUMPHOST_IP=$JUMPHOST_IP" > $WORKSPACE/node_creds
+                    echo "export JUMPHOST_IP=$JUMPHOST_PUBLIC_IP" > $WORKSPACE/node_creds
                     echo 'export SSH_USERNAME="root"' >> $WORKSPACE/node_creds
                     echo 'export SSH_PASSWORD="rain"' >> $WORKSPACE/node_creds
 
