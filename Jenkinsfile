@@ -8,8 +8,8 @@ pipeline {
                   #!/bin/bash +x
                   
                   NODE_PRIVATE_IP=$(echo $JUMPHOST_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."$4+1}')
-                  LOAD_BALANCE_IPRANGE=$(echo JUMPHOST_PRIVATE_IP | awk -F. '{print $1"."$2"."$3"."150-$1"."$2"."$3"."160}')
-                  echo $LOAD_BALANCE_IPRANGE
+                  LOAD_BALANCE_IPRANGE=$(echo $JUMPHOST_PRIVATE_IP | awk -F. '{print $1"."$2"."$3".150-"$1"."$2"."$3".160"}')
+                  
                   echo '{
                       "nodes":[
                         {
@@ -37,7 +37,7 @@ pipeline {
                       fi
                     done
                     echo '  ],
-                      "load-balancer-ipranges": "192.168.221.150-192.168.221.160",
+                      "load-balancer-ipranges": "'$LOAD_BALANCE_IPRANGE'",
                       "network-interface-name": "eth0"
                     }' >> file.json
                     
